@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PYC — Parish Youth Church</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ═══════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES
+═══════════════════════════════════════════════ */
+:root {
+  --navy:      #0D1B3E;
+  --navy2:     #152248;
+  --navy3:     #1C2D5C;
+  --white:     #FFFFFF;
+  --off-white: #F0F4FF;
+  --silver:    #B8C4E0;
+  --gold:      #C9A84C;
+  --gold-lt:   #E2C070;
+  --border:    rgba(255,255,255,0.10);
+  --border-lt: rgba(255,255,255,0.06);
+
+  --on-white-primary:   #0D1B3E;
+  --on-white-secondary: #2C3E6B;
+  --on-white-muted:     #5A6A94;
+  --on-white-faint:     #8A98BF;
+}
+
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--navy);color:var(--white);font-family:'Outfit',sans-serif;font-weight:400;overflow-x:hidden}
+a{text-decoration:none}
+img{max-width:100%;display:block}
+
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.4rem 5vw;
+  transition:background .4s,border-color .4s;
+}
+.nav.solid{background:rgba(13,27,62,0.96);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.nav-brand{display:flex;align-items:center;gap:.9rem}
+.nav-logo-box{width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;background:var(--navy2);flex-shrink:0}
+.nav-logo-box svg{width:28px;height:28px}
+.nav-name{font-family:'Cinzel',serif;font-size:.9rem;font-weight:700;letter-spacing:.22em;color:var(--white)}
+.nav-name span{display:block;font-size:.52rem;font-weight:400;letter-spacing:.3em;color:var(--silver);opacity:.7;margin-top:.1rem}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:.75rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--silver);transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--white);transition:width .3s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{font-family:'Cinzel',serif;font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--navy);background:var(--white);padding:.6rem 1.6rem;transition:background .2s,color .2s}
+.nav-cta:hover{background:var(--gold);color:var(--navy)}
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.ham span{display:block;width:24px;height:1.5px;background:var(--white);transition:all .3s}
+
+/* MOBILE MENU */
+.mob{display:none;position:fixed;inset:0;z-index:99;background:var(--navy);flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mob.open{display:flex}
+.mob-close{position:absolute;top:1.8rem;right:5vw;background:none;border:none;color:var(--white);font-size:1.6rem;cursor:pointer;opacity:.6}
+.mob a{font-family:'Cinzel',serif;font-size:clamp(1.8rem,7vw,3rem);letter-spacing:.1em;color:var(--white);opacity:.5;transition:opacity .2s,color .2s}
+.mob a:hover{opacity:1;color:var(--gold)}
+
+/* ═══════════════════════════════════════════════
+   HERO — 4-QUADRANT GRID
+═══════════════════════════════════════════════ */
+.hero{
+  min-height:100svh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  position:relative;
+}
+.cross-v{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(255,255,255,.14);transform:translateX(-50%);z-index:4;pointer-events:none}
+.cross-h{position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,.14);transform:translateY(-50%);z-index:4;pointer-events:none}
+.cross-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;width:clamp(60px,7vw,88px);height:clamp(60px,7vw,88px);background:var(--navy);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--navy),0 0 0 7px rgba(255,255,255,.07)}
+.cross-center-txt{font-family:'Cinzel',serif;font-size:clamp(.7rem,1.4vw,1.1rem);font-weight:900;letter-spacing:.12em;color:var(--white);text-align:center;line-height:1}
+.cross-center-txt small{display:block;font-size:.38em;letter-spacing:.35em;color:var(--silver);opacity:.6;margin-top:.3rem}
+.quad{position:relative;overflow:hidden;padding:clamp(5rem,8vw,8rem) clamp(2rem,4vw,5rem);display:flex;flex-direction:column}
+
+/* Q1 — Headline */
+.q1{background:var(--white);justify-content:flex-end;align-items:flex-start}
+.q1-tag{font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--on-white-muted);margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem;font-weight:500}
+.q1-tag::before{content:'';width:18px;height:1px;background:var(--on-white-muted)}
+.q1 h1{font-family:'Cinzel',serif;font-size:clamp(2.2rem,5vw,5rem);font-weight:900;line-height:.9;letter-spacing:.04em;color:var(--on-white-primary)}
+.q1 h1 em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(2.6rem,6vw,5.8rem);color:var(--on-white-primary);display:block;line-height:.88;letter-spacing:.01em}
+.q1-sub{margin-top:1.4rem;font-size:clamp(.85rem,1.3vw,.97rem);color:var(--on-white-secondary);line-height:1.75;font-weight:400;max-width:300px}
+
+/* Q2 — Event Slider */
+.q2{background:var(--navy2);padding:0}
+.event-slider{position:relative;width:100%;height:100%;min-height:300px}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(2rem,4vw,3.5rem);opacity:0;transition:opacity .8s ease;pointer-events:none}
+.slide.on{opacity:1;pointer-events:all}
+.sl-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.sl-icon{font-size:clamp(6rem,16vw,14rem);opacity:.06;user-select:none;transition:transform 8s ease;transform:scale(1.05)}
+.slide.on .sl-icon{transform:scale(1.12)}
+.sl-tag{position:absolute;top:calc(clamp(1rem,2.5vw,1.8rem) + 72px);right:clamp(1rem,2.5vw,1.8rem);background:var(--white);color:var(--navy);font-family:'Cinzel',serif;font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:.35rem .9rem}
+.sl-body{position:relative;z-index:2}
+.sl-date{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#d4dcf0;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;font-weight:500}
+.sl-date::before{content:'';width:14px;height:1px;background:#d4dcf0}
+.sl-title{font-family:'Cinzel',serif;font-size:clamp(1.1rem,2.8vw,2rem);font-weight:700;line-height:1.15;color:var(--white);margin-bottom:.6rem;letter-spacing:.03em}
+.sl-desc{font-size:clamp(.78rem,1.2vw,.9rem);color:#c8d4ef;line-height:1.65;max-width:320px;font-weight:400}
+.sl-divider{width:100%;height:1px;background:rgba(255,255,255,.15);margin:.9rem 0}
+.sl-meta{display:flex;flex-wrap:wrap;gap:1rem}
+.sl-meta span{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:#b8c8e8;font-weight:500}
+.sl-arrows{position:absolute;bottom:clamp(1rem,2vw,1.6rem);right:clamp(1rem,2vw,1.6rem);display:flex;gap:.5rem;z-index:10}
+.sl-arr{width:32px;height:32px;border:1px solid rgba(255,255,255,.2);background:rgba(13,27,62,.4);color:var(--white);font-size:.85rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,border-color .2s;backdrop-filter:blur(4px)}
+.sl-arr:hover{background:var(--white);color:var(--navy);border-color:var(--white)}
+.sl-dots{position:absolute;bottom:clamp(1.2rem,2.2vw,1.8rem);left:clamp(1rem,2vw,1.6rem);display:flex;gap:.5rem;z-index:10;align-items:center}
+.sl-dot{width:16px;height:2px;background:rgba(255,255,255,.3);cursor:pointer;transition:background .3s,width .3s}
+.sl-dot.on{background:var(--white);width:28px}
+
+/* Q3 — Daily Scripture */
+.q3{background:var(--white);justify-content:center}
+.q3-label{font-size:.65rem;letter-spacing:.32em;text-transform:uppercase;color:var(--on-white-muted);margin-bottom:1.4rem;display:flex;align-items:center;gap:.6rem;font-weight:600}
+.q3-label::after{content:'';flex:1;height:1px;background:var(--on-white-faint);max-width:60px}
+.q3-verse{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(1rem,2.2vw,1.45rem);line-height:1.7;color:var(--on-white-primary);transition:opacity .55s ease;min-height:4.5em}
+.q3-verse.fade{opacity:0}
+.q3-ref{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.22em;color:var(--on-white-secondary);margin-top:1rem;transition:opacity .55s ease;font-weight:600}
+.q3-ref.fade{opacity:0}
+.q3-line{width:32px;height:1px;background:var(--on-white-faint);margin:1.2rem 0}
+.q3-btn{display:inline-flex;align-items:center;gap:.45rem;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--on-white-secondary);opacity:1;background:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:color .2s;font-weight:500}
+.q3-btn:hover{color:var(--on-white-primary)}
+.q3-btn svg{width:13px;height:13px;transition:transform .4s}
+.q3-btn:hover svg{transform:rotate(180deg)}
+
+/* Q4 — CTA */
+.q4{background:var(--navy2);justify-content:center;align-items:flex-start}
+.q4-lead{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2vw,1.35rem);font-weight:400;line-height:1.75;color:#d4dcf0;max-width:290px;margin-bottom:2rem}
+.q4-lead strong{font-weight:600;color:var(--white);font-style:italic}
+.q4-btns{display:flex;flex-direction:column;gap:.8rem}
+.btn-w{display:inline-flex;align-items:center;gap:.8rem;background:var(--white);color:var(--navy);padding:.85rem 1.8rem;font-family:'Cinzel',serif;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;transition:background .2s,color .2s,transform .2s;width:fit-content}
+.btn-w:hover{background:var(--off-white);transform:translateX(3px)}
+.btn-w svg{width:14px;height:14px;transition:transform .2s}
+.btn-w:hover svg{transform:translateX(3px)}
+.btn-o{display:inline-flex;align-items:center;gap:.8rem;border:1px solid rgba(255,255,255,.35);color:#d4dcf0;padding:.85rem 1.8rem;font-size:.72rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;transition:border-color .2s,color .2s;width:fit-content}
+.btn-o:hover{border-color:var(--white);color:var(--white)}
+.q4-times{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem}
+.chip{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid rgba(255,255,255,.25);padding:.3rem .75rem;color:#c8d4ef;font-weight:500}
+
+/* ═══════════════════════════════════════════════
+   SERVICE STRIP
+═══════════════════════════════════════════════ */
+.strip{display:flex;flex-wrap:wrap;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.strip-cell{flex:1;min-width:160px;padding:1.2rem 2rem;display:flex;flex-direction:column;gap:.25rem;border-right:1px solid var(--border)}
+.strip-cell:last-child{border-right:none}
+.sc-wh{background:var(--white);border-right:1px solid rgba(13,27,62,.1)}
+.sc-wh .sc-label{color:var(--on-white-muted);font-weight:600}
+.sc-wh .sc-val{color:var(--on-white-primary)}
+.sc-nv{background:var(--navy2)}
+.sc-nv .sc-label{color:#9dafd0;font-weight:500}
+.sc-nv .sc-val{color:var(--white)}
+.sc-label{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase}
+.sc-val{font-family:'Cinzel',serif;font-size:.9rem;font-weight:600;letter-spacing:.1em}
+
+/* ═══════════════════════════════════════════════
+   TICKER
+═══════════════════════════════════════════════ */
+.ticker{background:var(--white);overflow:hidden;padding:.85rem 0;border-bottom:1px solid rgba(13,27,62,.1)}
+.tick-track{display:flex;white-space:nowrap;gap:4rem;animation:roll 32s linear infinite}
+.tick-track:hover{animation-play-state:paused}
+@keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tick-item{display:inline-flex;align-items:center;gap:.7rem;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--on-white-secondary);flex-shrink:0}
+.tick-item strong{color:var(--on-white-primary);font-weight:700}
+.tick-dot{width:4px;height:4px;background:var(--on-white-faint);border-radius:50%}
+
+/* ═══════════════════════════════════════════════
+   ACTIVITIES / MINISTRIES
+═══════════════════════════════════════════════ */
+.activities{padding:clamp(5rem,10vw,8rem) 5vw;background:var(--navy)}
+.sec-header{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-bottom:3rem}
+.sec-kicker{font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;color:var(--silver);opacity:.55;margin-bottom:.7rem;display:flex;align-items:center;gap:.6rem;font-weight:600}
+.sec-kicker::before{content:'';width:16px;height:1px;background:var(--silver);opacity:.5}
+.sec-title{font-family:'Cinzel',serif;font-size:clamp(1.8rem,4.5vw,3.8rem);font-weight:700;letter-spacing:.04em;line-height:1;color:var(--white)}
+.sec-title em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:var(--silver)}
+.see-all{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--silver);opacity:.55;border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:2px;transition:opacity .2s,color .2s}
+.see-all:hover{opacity:1;color:var(--white)}
+
+.act-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto auto;gap:1px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.05)}
+.ac{position:relative;overflow:hidden;cursor:pointer}
+.ac1{grid-column:span 5;min-height:460px}
+.ac2{grid-column:span 4;min-height:230px}
+.ac3{grid-column:span 3;min-height:230px}
+.ac4{grid-column:span 3;min-height:230px}
+.ac5{grid-column:span 4;min-height:230px}
+.ac6{grid-column:span 5;min-height:230px}
+
+.ac-img{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;transition:transform .65s ease,opacity .4s ease;opacity:0.55}
+.ac:hover .ac-img{transform:scale(1.05);opacity:0.7}
+.ac-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,62,0.92) 0%,rgba(13,27,62,0.45) 45%,rgba(13,27,62,0.10) 100%)}
+.ac.wh .ac-img{opacity:0.80}
+.ac.wh:hover .ac-img{opacity:0.70}
+.ac.wh .ac-img::after{background:linear-gradient(to top,rgba(255,255,255,0.97) 0%,rgba(255,255,255,0.70) 45%,rgba(255,255,255,0.20) 100%)}
+.ac-img ~ .ac-inner{background:transparent !important}
+.ac-img ~ .ac-inner:hover{background:transparent !important}
+
+.ac-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(5rem,12vw,10rem);opacity:.05;user-select:none;pointer-events:none;transition:transform .5s ease,opacity .35s}
+.ac:hover .ac-icon{transform:scale(1.06);opacity:.08}
+.ac.wh .ac-icon{opacity:.04}
+.ac.wh:hover .ac-icon{opacity:.06}
+
+.ac-inner{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(1.2rem,2.5vw,2rem);background:var(--navy3);transition:background .35s}
+.ac:hover .ac-inner{background:var(--navy2)}
+
+.ac.wh .ac-inner{background:var(--white)}
+.ac.wh:hover .ac-inner{background:#eef1fc}
+.ac.wh .ac-tag{background:var(--navy);color:var(--white)}
+.ac.wh .ac-title{color:var(--on-white-primary)}
+.ac.wh .ac-desc{color:var(--on-white-secondary);opacity:1}
+.ac.wh .ac-chip{border-color:rgba(13,27,62,.2);color:var(--on-white-secondary);opacity:1}
+.ac.wh .ac-arr{border-color:rgba(13,27,62,.18);color:var(--on-white-primary);opacity:.55}
+.ac.wh:hover .ac-arr{background:var(--navy);color:var(--white);border-color:var(--navy);opacity:1}
+.ac.wh .ac-img ~ .ac-inner .ac-title{color:var(--on-white-primary)}
+.ac.wh .ac-img ~ .ac-inner .ac-desc{color:var(--on-white-secondary)}
+.ac.wh .ac-img ~ .ac-inner .ac-chip{border-color:rgba(13,27,62,.25);color:var(--on-white-secondary)}
+
+.ac-tag{position:absolute;top:1.2rem;left:1.2rem;background:var(--white);color:var(--navy);font-family:'Cinzel',serif;font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:.3rem .75rem;z-index:2}
+.ac-arr{position:absolute;top:1.2rem;right:1.2rem;width:30px;height:30px;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;color:var(--white);opacity:.45;font-size:.8rem;z-index:2;transition:opacity .2s,background .2s,border-color .2s}
+.ac:hover .ac-arr{opacity:1;background:var(--white);color:var(--navy);border-color:var(--white)}
+.ac-body{position:relative;z-index:2}
+.ac-title{font-family:'Cinzel',serif;font-size:clamp(.9rem,1.8vw,1.4rem);font-weight:700;letter-spacing:.04em;line-height:1.2;margin-bottom:.4rem;color:var(--white)}
+.ac-desc{font-size:clamp(.75rem,1.1vw,.85rem);color:#c0ccec;line-height:1.6;margin-bottom:.8rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:400}
+.ac-chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.ac-chip{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid rgba(255,255,255,.2);padding:.22rem .6rem;color:#c0ccec}
+
+/* ═══════════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════════ */
+.about{display:grid;grid-template-columns:1fr 1fr}
+.about-left{background:var(--white);padding:clamp(4rem,8vw,8rem) clamp(2.5rem,5vw,6rem)}
+.about-left .sec-kicker{color:var(--on-white-muted);opacity:1;font-weight:600}
+.about-left .sec-kicker::before{background:var(--on-white-muted)}
+.about-left .sec-title{color:var(--on-white-primary)}
+.about-left .sec-title em{color:var(--on-white-secondary);opacity:1}
+.about-body{font-size:clamp(.88rem,1.35vw,1rem);line-height:1.85;color:var(--on-white-secondary);font-weight:400;margin-bottom:2.5rem}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(13,27,62,.08);border:1px solid rgba(13,27,62,.08)}
+.pillar{background:var(--white);padding:1.2rem;border-bottom:2px solid transparent;transition:border-color .2s}
+.pillar:hover{border-bottom-color:var(--navy)}
+.pillar h4{font-family:'Cinzel',serif;font-size:.74rem;letter-spacing:.15em;text-transform:uppercase;color:var(--on-white-primary);margin-bottom:.35rem;font-weight:700}
+.pillar p{font-size:.82rem;color:var(--on-white-secondary);line-height:1.6;font-weight:400}
+.about-right{background:var(--navy2);padding:clamp(4rem,8vw,8rem) clamp(2.5rem,5vw,6rem);display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.about-cross{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.about-cross svg{width:55%;height:55%;opacity:.04}
+.about-quote{position:relative;z-index:2}
+.about-quote blockquote{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(1.1rem,2.4vw,1.7rem);line-height:1.7;color:var(--white);margin-bottom:1.2rem}
+.about-quote cite{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.25em;color:#c8d4ef;font-style:normal;font-weight:600}
+.about-div{width:32px;height:1px;background:rgba(255,255,255,.2);margin:1.4rem 0}
+.about-stats{display:flex;gap:3rem;flex-wrap:wrap}
+.stat-num{font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:var(--white);line-height:1}
+.stat-lbl{font-size:.67rem;letter-spacing:.2em;text-transform:uppercase;color:#9dafd0;margin-top:.3rem;font-weight:500}
+
+/* ═══════════════════════════════════════════════
+   COMMUNITY SLIDESHOW
+═══════════════════════════════════════════════ */
+.pyc-slideshow{position:relative;width:100%;background:var(--navy);overflow:hidden;padding:3rem 0 2rem}
+.pyc-ss-window{position:relative;overflow:hidden}
+.pyc-ss-track{display:flex;gap:1rem;transition:transform .65s ease;padding:0 1.5rem}
+.pyc-ss-slide{flex:0 0 calc((100% - 2rem) / 3);max-width:calc((100% - 2rem) / 3);background:#ffffff;border-radius:1.2rem;box-shadow:0 20px 50px rgba(11,30,66,.14);overflow:hidden;display:flex;flex-direction:column}
+.pyc-ss-slide img{width:100%;height:auto;object-fit:cover;display:block}
+.pyc-ss-card-body{padding:1.4rem 1.3rem 1.5rem}
+.pyc-ss-title{font-family:'Cinzel',serif;font-size:1.05rem;font-weight:700;color:var(--navy);margin:0}
+.pyc-ss-bar{display:flex;align-items:center;justify-content:center;gap:1rem;padding-top:1.3rem}
+.pyc-ss-dots{display:flex;gap:.55rem;align-items:center}
+.pyc-ss-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);border:none;cursor:pointer;transition:background .25s,transform .25s}
+.pyc-ss-dot.active{background:var(--gold);transform:scale(1.2)}
+.pyc-ss-counter{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.22em;color:rgba(255,255,255,.78)}
+.pyc-ss-counter strong{color:var(--white);font-weight:700}
+.pyc-ss-arr{width:44px;height:44px;border:1px solid rgba(255,255,255,.2);background:rgba(13,27,62,.75);color:var(--white);font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;position:absolute;top:50%;transform:translateY(-50%);z-index:5;transition:background .2s,border-color .2s,color .2s}
+.pyc-ss-arr:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.pyc-ss-arr-left{left:1rem}
+.pyc-ss-arr-right{right:1rem}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer{background:var(--navy);border-top:1px solid var(--border);padding:4rem 5vw 2rem}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.ft-brand-name{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;letter-spacing:.2em;color:var(--white);display:block;margin-bottom:.6rem}
+.ft-brand-name span{display:block;font-size:.5em;letter-spacing:.35em;color:#9dafd0;margin-top:.15rem;font-weight:500}
+.ft-brand p{font-size:.82rem;color:#9dafd0;line-height:1.75;max-width:220px;font-weight:400}
+.ft-col h4{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:#8090b8;margin-bottom:1.2rem;font-weight:700}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.ft-col ul li a{font-size:.82rem;color:#9dafd0;transition:color .2s;letter-spacing:.04em;font-weight:400}
+.ft-col ul li a:hover{color:var(--white)}
+.ft-bottom{border-top:1px solid var(--border-lt);padding-top:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.ft-bottom p{font-size:.72rem;color:#7080a8;letter-spacing:.06em}
+.ft-socials{display:flex;gap:.7rem}
+.ft-soc{width:32px;height:32px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:#9dafd0;transition:all .2s}
+.ft-soc:hover{opacity:1;border-color:var(--white);color:var(--white)}
+.ft-soc i{font-size:1.2rem}
+
+/* ═══════════════════════════════════════════════
+   REVEAL ANIMATION
+═══════════════════════════════════════════════ */
+.rev{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s ease}
+.rev.show{opacity:1;transform:none}
+.rev-d1{transition-delay:.08s}
+.rev-d2{transition-delay:.16s}
+.rev-d3{transition-delay:.24s}
+.rev-d4{transition-delay:.32s}
+
+
+/* ╔═════════════════════════════════════════════════════════════╗
+   ║               COMPREHENSIVE MEDIA QUERIES                   ║
+   ║                                                             ║
+   ║  Breakpoints:                                               ║
+   ║    XL / Large Desktop  — 1400px+                            ║
+   ║    Desktop             — 1101px – 1399px  (base styles)     ║
+   ║    Tablet Landscape    — 901px  – 1100px                    ║
+   ║    Tablet Portrait     — 601px  – 900px                     ║
+   ║    Mobile Large        — 481px  – 600px                     ║
+   ║    Mobile Small        — 320px  – 480px                     ║
+   ╚═════════════════════════════════════════════════════════════╝ */
+
+
+/* ─────────────────────────────────────────────
+   XL / LARGE DESKTOP  (1400px+)
+   Widen paddings, bump up text slightly
+───────────────────────────────────────────── */
+@media (min-width: 1400px) {
+  .nav { padding: 1.6rem 6vw; }
+  .activities { padding: 9rem 6vw; }
+  .ft-grid { gap: 4rem; }
+
+  /* Slideshow: bigger cards */
+  .pyc-ss-track { gap: 1.4rem; padding: 0 3rem; }
+  .pyc-ss-slide {
+    flex: 0 0 calc((100% - 2.8rem) / 3);
+    max-width: calc((100% - 2.8rem) / 3);
+  }
+  .pyc-ss-arr { width: 52px; height: 52px; font-size: 1.3rem; }
+}
+
+
+/* ─────────────────────────────────────────────
+   TABLET LANDSCAPE  (901px – 1100px)
+   2-column hero, activities reflow
+───────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  /* Footer 2-col */
+  .ft-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+
+  /* Activities grid — 6-col skeleton */
+  .act-grid { grid-template-columns: repeat(6, 1fr); }
+  .ac1 { grid-column: span 6; min-height: 300px; }
+  .ac2, .ac3, .ac4, .ac5 { grid-column: span 3; min-height: 230px; }
+  .ac6 { grid-column: span 6; min-height: 260px; }
+
+  /* Slideshow: 2 cards */
+  .pyc-ss-track { gap: 1rem; padding: 0 1.5rem; }
+  .pyc-ss-slide {
+    flex: 0 0 calc((100% - 1rem) / 2);
+    max-width: calc((100% - 1rem) / 2);
+    border-radius: 1rem;
+  }
+  .pyc-ss-card-body { padding: 1.3rem 1.2rem; }
+  .pyc-ss-title { font-size: .95rem; }
+  .pyc-ss-arr { width: 42px; height: 42px; font-size: 1rem; }
+}
+
+
+/* ─────────────────────────────────────────────
+   TABLET PORTRAIT  (601px – 900px)
+   Stack hero to single column, side-by-side strips
+───────────────────────────────────────────── */
+@media (max-width: 900px) {
+
+  /* ── Hero: single column, 4 rows ── */
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, auto);
+    min-height: auto;
+  }
+  .cross-v, .cross-h, .cross-center { display: none; }
+
+  .quad { padding: clamp(3.5rem, 7vw, 5rem) clamp(1.8rem, 5vw, 3.5rem); }
+  .q1 { min-height: 50vw; justify-content: flex-end; }
+  .q2 { min-height: 60vw; }
+  .q3 { min-height: 45vw; }
+  .q4 { min-height: 50vw; }
+
+  /* Larger sub-heading on tablet */
+  .q1 h1 { font-size: clamp(2.8rem, 7vw, 4.5rem); }
+  .q1 h1 em { font-size: clamp(3.2rem, 8vw, 5rem); }
+  .q1-sub { max-width: 480px; font-size: 1rem; }
+
+  .q4-lead { max-width: 480px; }
+  .q4-times { gap: .6rem; }
+
+  /* ── About: single column ── */
+  .about { grid-template-columns: 1fr; }
+  .about-left { padding: clamp(3rem,7vw,5rem) clamp(2rem,5vw,4rem); }
+  .about-right { padding: clamp(3rem,7vw,5rem) clamp(2rem,5vw,4rem); min-height: 60vw; }
+  .about-stats { gap: 2.5rem; }
+
+  /* ── Service strip: 2 cells per row ── */
+  .strip-cell { flex: 0 0 50%; }
+  .strip-cell:nth-child(2n) { border-right: none; }
+  .strip-cell:nth-child(n+3) { border-top: 1px solid var(--border); }
+  .sc-wh:nth-child(2n) { border-right: none; }
+
+  /* ── Activities: 6-col on tablet ── */
+  .act-grid { grid-template-columns: repeat(6, 1fr); }
+  .ac1 { grid-column: span 6; min-height: 280px; }
+  .ac2 { grid-column: span 3; min-height: 220px; }
+  .ac3 { grid-column: span 3; min-height: 220px; }
+  .ac4 { grid-column: span 3; min-height: 220px; }
+  .ac5 { grid-column: span 3; min-height: 220px; }
+  .ac6 { grid-column: span 6; min-height: 240px; }
+
+  /* ── Slideshow: 2 cards ── */
+  .pyc-slideshow { padding: 2.5rem 0 1.8rem; }
+  .pyc-ss-track { gap: 1rem; padding: 0 1.5rem; }
+  .pyc-ss-slide {
+    flex: 0 0 calc((100% - 1rem) / 2);
+    max-width: calc((100% - 1rem) / 2);
+    border-radius: 1rem;
+  }
+  .pyc-ss-arr { width: 40px; height: 40px; font-size: 1rem; }
+
+  /* ── Footer ── */
+  .ft-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .ft-brand { grid-column: span 2; }
+  .ft-bottom { flex-direction: column; align-items: flex-start; }
+}
+
+
+/* ─────────────────────────────────────────────
+   MOBILE LARGE  (481px – 600px)
+   Bigger touch targets, adjusted type scale
+───────────────────────────────────────────── */
+@media (max-width: 600px) {
+
+  /* ── Nav ── */
+  .nav { padding: 1.2rem 4vw; }
+  .nav-links, .nav-cta { display: none; }
+  .ham { display: flex; }
+  .nav-name { font-size: .78rem; }
+
+  /* ── Hero quads ── */
+  .quad { padding: 4rem 1.4rem 2.2rem; }
+  .q1 { min-height: auto; padding-top: 5.5rem; }
+  .q2 { min-height: 72vw; }
+  .q3 { min-height: auto; }
+  .q4 { min-height: auto; }
+
+  .q1-tag { font-size: .62rem; margin-bottom: .9rem; }
+  .q1 h1 { font-size: clamp(2.4rem, 9vw, 3.6rem); }
+  .q1 h1 em { font-size: clamp(2.8rem, 10vw, 4rem); }
+  .q1-sub { font-size: .9rem; max-width: 100%; }
+
+  .q4-lead { max-width: 100%; font-size: 1.05rem; margin-bottom: 1.5rem; }
+  .btn-w, .btn-o { width: 100%; justify-content: space-between; padding: .9rem 1.4rem; }
+  .q4-times { gap: .4rem; }
+  .chip { font-size: .58rem; padding: .28rem .6rem; }
+
+  /* ── Slider ── */
+  .sl-title { font-size: 1.1rem; }
+  .sl-desc { font-size: .82rem; }
+
+  /* ── Scripture (q3) ── */
+  .q3-verse { font-size: 1.1rem; }
+  .q3-ref { font-size: .68rem; }
+
+  /* ── Service strip: 1 per row ── */
+  .strip-cell {
+    flex: 0 0 100%;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border);
+  }
+  .strip-cell:last-child { border-bottom: none; }
+
+  /* ── Activities: vertical stack ── */
+  .act-grid { display: flex; flex-direction: column; border: none; gap: 1px; }
+  .ac { min-height: 220px !important; }
+  .ac-title { font-size: 1rem; }
+  .ac-desc { font-size: .82rem; -webkit-line-clamp: 3; }
+
+  /* ── About ── */
+  .about-left { padding: 3.5rem 1.4rem; }
+  .about-right { padding: 3.5rem 1.4rem; }
+  .pillars { grid-template-columns: 1fr; }
+  .about-stats { gap: 2rem; }
+  .stat-num { font-size: 2.2rem; }
+
+  /* ── Slideshow: 1 card ── */
+  .pyc-slideshow { padding: 1.8rem 0 1.2rem; }
+  .pyc-ss-track { gap: .75rem; padding: 0 .75rem; }
+  .pyc-ss-slide {
+    flex: 0 0 calc(100% - 1.5rem);
+    max-width: calc(100% - 1.5rem);
+    border-radius: .9rem;
+  }
+  .pyc-ss-card-body { padding: 1rem 1rem .9rem; text-align: center; }
+  .pyc-ss-title { font-size: .9rem; }
+  .pyc-ss-arr { width: 38px; height: 38px; font-size: .95rem; }
+  .pyc-ss-arr-left { left: .4rem; }
+  .pyc-ss-arr-right { right: .4rem; }
+  .pyc-ss-dot { width: 8px; height: 8px; }
+  .pyc-ss-counter { font-size: .65rem; }
+
+  /* ── Footer: single column ── */
+  .ft-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .ft-brand { grid-column: span 1; }
+  .ft-bottom { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+  .ft-bottom p { font-size: .68rem; }
+
+  /* ── Sec header ── */
+  .sec-header { flex-direction: column; align-items: flex-start; }
+}
+
+
+/* ─────────────────────────────────────────────
+   MOBILE SMALL  (320px – 480px)
+   Tightest spacing, minimum viable layout
+───────────────────────────────────────────── */
+@media (max-width: 480px) {
+
+  /* ── Nav ── */
+  .nav { padding: 1rem 3.5vw; }
+  .nav-logo-box { width: 34px; height: 34px; }
+  .nav-logo-box svg { width: 22px; height: 22px; }
+  .nav-name { font-size: .7rem; letter-spacing: .14em; }
+  .nav-name span { font-size: .46rem; }
+
+  /* ── Hero ── */
+  .quad { padding: 3.5rem 1.1rem 1.8rem; }
+  .q1 { padding-top: 5rem; }
+  .q2 { min-height: 85vw; }
+
+  .q1-tag { font-size: .58rem; letter-spacing: .2em; margin-bottom: .8rem; }
+  .q1 h1 { font-size: clamp(2rem, 11vw, 3rem); }
+  .q1 h1 em { font-size: clamp(2.4rem, 12vw, 3.5rem); }
+  .q1-sub { font-size: .85rem; line-height: 1.65; }
+
+  .q3-verse { font-size: 1rem; min-height: auto; }
+  .q3-ref { font-size: .64rem; }
+  .q3-label { font-size: .6rem; }
+
+  /* ── Slider ── */
+  .sl-tag { font-size: .54rem; padding: .28rem .7rem; }
+  .sl-date { font-size: .6rem; }
+  .sl-title { font-size: 1rem; }
+  .sl-desc { font-size: .78rem; max-width: 100%; }
+  .sl-arr { width: 28px; height: 28px; font-size: .8rem; }
+  .sl-dot { width: 14px; }
+  .sl-dot.on { width: 22px; }
+
+  /* ── Strip: tighter padding ── */
+  .strip-cell { padding: 1rem 1.2rem; }
+  .sc-label { font-size: .58rem; }
+  .sc-val { font-size: .82rem; }
+
+  /* ── Ticker: smaller text ── */
+  .tick-item { font-size: .6rem; gap: .5rem; }
+  .tick-track { gap: 2.5rem; }
+
+  /* ── Activities ── */
+  .ac { min-height: 190px !important; }
+  .ac-tag { font-size: .54rem; padding: .26rem .65rem; top: .9rem; left: .9rem; }
+  .ac-arr { width: 26px; height: 26px; font-size: .72rem; top: .9rem; right: .9rem; }
+  .ac-inner { padding: 1rem; }
+  .ac-title { font-size: .88rem; }
+  .ac-desc { font-size: .78rem; }
+  .ac-chip { font-size: .56rem; padding: .18rem .5rem; }
+
+  /* ── About ── */
+  .about-left { padding: 3rem 1.1rem; }
+  .about-right { padding: 3rem 1.1rem; }
+  .pillar { padding: 1rem; }
+  .pillar h4 { font-size: .68rem; }
+  .pillar p { font-size: .78rem; }
+  .about-quote blockquote { font-size: 1.05rem; }
+  .about-stats { gap: 1.6rem; }
+  .stat-num { font-size: 2rem; }
+  .stat-lbl { font-size: .62rem; }
+
+  /* ── Slideshow ── */
+  .pyc-slideshow { padding: 1.5rem 0 1rem; }
+  .pyc-ss-track { gap: .6rem; padding: 0 .6rem; }
+  .pyc-ss-slide {
+    flex: 0 0 calc(100% - 1.2rem);
+    max-width: calc(100% - 1.2rem);
+    border-radius: .7rem;
+  }
+  .pyc-ss-card-body { padding: .85rem .9rem .8rem; }
+  .pyc-ss-title { font-size: .82rem; }
+  .pyc-ss-arr { width: 34px; height: 34px; font-size: .85rem; }
+  .pyc-ss-arr-left { left: .25rem; }
+  .pyc-ss-arr-right { right: .25rem; }
+  .pyc-ss-bar { gap: .7rem; padding-top: .8rem; }
+  .pyc-ss-dots { gap: .38rem; }
+  .pyc-ss-dot { width: 7px; height: 7px; }
+  .pyc-ss-counter { font-size: .6rem; }
+
+  /* ── Footer ── */
+  footer { padding: 3rem 3.5vw 1.5rem; }
+  .ft-grid { gap: 1.6rem; }
+  .ft-brand-name { font-size: .95rem; }
+  .ft-brand p { font-size: .78rem; }
+  .ft-col h4 { font-size: .58rem; }
+  .ft-col ul li a { font-size: .78rem; }
+  .ft-bottom p { font-size: .64rem; }
+  .ft-soc { width: 28px; height: 28px; }
+  .ft-soc i { font-size: 1rem; }
+
+  /* ── Activities section header ── */
+  .activities { padding: 3.5rem 3.5vw; }
+  .sec-header { margin-bottom: 2rem; }
+}
+
+
+/* ─────────────────────────────────────────────
+   VERY SMALL / NARROW (< 360px)
+   Safety net for tiny screens like Galaxy Fold
+───────────────────────────────────────────── */
+@media (max-width: 360px) {
+  .nav-name span { display: none; }
+  .q1 h1 { font-size: 1.95rem; }
+  .q1 h1 em { font-size: 2.3rem; }
+  .q4-times { gap: .3rem; }
+  .chip { font-size: .54rem; padding: .24rem .5rem; letter-spacing: .1em; }
+  .about-stats { flex-direction: column; gap: 1.2rem; }
+  .pyc-ss-arr-left { left: .15rem; }
+  .pyc-ss-arr-right { right: .15rem; }
+  .ft-socials { gap: .4rem; }
+}
+
+
+/* ─────────────────────────────────────────────
+   TOUCH / HOVER STATES
+   Remove hover transforms on touch devices
+   to avoid sticky hover bugs
+───────────────────────────────────────────── */
+@media (hover: none) {
+  .ac:hover .ac-img { transform: none; opacity: .55; }
+  .ac.wh:hover .ac-img { opacity: .8; }
+  .btn-w:hover { transform: none; }
+  .ac:hover .ac-inner { background: var(--navy3); }
+  .ac.wh:hover .ac-inner { background: var(--white); }
+}
+
+
+/* ─────────────────────────────────────────────
+   REDUCED MOTION
+   Respect user's system preference
+───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .tick-track { animation: none; }
+  .rev { opacity: 1; transform: none; transition: none; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- MOBILE NAV -->
+<div class="mob" id="mob">
+  <button class="mob-close" onclick="closeMob()">✕</button>
+  <a href="#home" onclick="closeMob()">Home</a>
+  <a href="#activities" onclick="closeMob()">Activities</a>
+  <a href="#about" onclick="closeMob()">About</a>
+  <a href="#word" onclick="closeMob()">The Word</a>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#home" class="nav-brand">
+    <div class="nav-logo-box">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="14" y1="1" x2="14" y2="27" stroke="rgba(255,255,255,0.55)" stroke-width="0.8"/>
+        <line x1="1" y1="14" x2="27" y2="14" stroke="rgba(255,255,255,0.55)" stroke-width="0.8"/>
+        <text x="2" y="12" font-family="serif" font-size="9" fill="rgba(255,255,255,0.82)" font-weight="300">P</text>
+        <text x="2" y="25" font-family="serif" font-size="9" fill="rgba(255,255,255,0.82)" font-weight="300">Y</text>
+        <text x="17" y="25" font-family="serif" font-size="9" fill="rgba(255,255,255,0.82)" font-weight="300">C</text>
+      </svg>
+    </div>
+    <div class="nav-name">PYC <span>Parish Youth Church</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#activities">Activities</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#word">The Word</a></li>
+  </ul>
+  <button class="ham" onclick="openMob()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero">
+    <div class="cross-v"></div>
+    <div class="cross-h"></div>
+
+    <div class="quad q1">
+      <p class="q1-tag">Christ Anglican Church Elere, Agege</p>
+      <h1>Parish <em>Youth Council</em></h1>
+      <p class="q1-sub">Ancient roots. Present fire. A community for young Anglicans who refuse to choose between liturgy and life.</p>
+    </div>
+
+    <div class="quad q2">
+      <div class="event-slider" id="slider">
+        <div class="slide on">
+          <div class="sl-bg">
+            <div class="ac-img" style="background-image:url('360_F_1275220090_nuceL3rJS4g415XqtUd6r33eJD2WOqOo.jpg')"></div>
+          </div>
+          <div class="sl-tag">This Sunday</div>
+          <div class="sl-body">
+            <p class="sl-date">March 16, 2025</p>
+            <h3 class="sl-title">Sunday Worship Experience</h3>
+            <p class="sl-desc">Liturgy meets live worship. Encounter God in the fullness of Anglican tradition and contemporary fire.</p>
+            <div class="sl-divider"></div>
+            <div class="sl-meta"><span>🕘 7AM &amp; 10AM</span><span>📍 Youth Chapel</span></div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="sl-bg">
+            <div class="ac-img" style="background-image:url('istockphoto-157773594-612x612.jpg')"></div>
+          </div>
+          <div class="sl-tag">Weekly</div>
+          <div class="sl-body">
+            <p class="sl-date">Every Tuesday</p>
+            <h3 class="sl-title">Virtual Prayer Meeting</h3>
+            <p class="sl-desc">A gathering of believers connecting to pray, share scripture, and encourage one another in faith across screens</p>
+            <div class="sl-divider"></div>
+            <div class="sl-meta"><span>🕕 7:00 PM</span><span>📍 Weekly link</span></div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="sl-bg">
+            <div class="ac-img" style="background-image:url('istockphoto-157592717-612x612.jpg')"></div>
+          </div>
+          <div class="sl-tag">Open Auditions</div>
+          <div class="sl-body">
+            <p class="sl-date">Every Sunday</p>
+            <h3 class="sl-title">Living Praise Family Auditions</h3>
+            <p class="sl-desc">Gospel. Hymns. Vocal Gifts. Harmony. Dedication. Our choir is where art becomes adoration. All voices welcome.</p>
+            <div class="sl-divider"></div>
+            <div class="sl-meta"><span>🕔 3:00 PM</span><span>📍 Music Room</span></div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="sl-bg">
+            <div class="ac-img" style="background-image:url('360_F_297780357_pK8VCA7wctbTFusAGiCfcoxbJLRwC9Bs.jpg')"></div>
+          </div>
+          <div class="sl-tag">Monthly</div>
+          <div class="sl-body">
+            <p class="sl-date">1st Sunday of the month</p>
+            <h3 class="sl-title">Bible Study</h3>
+            <p class="sl-desc">No surface-level conversations. We go deep — exegesis, context, and real application. Bring your questions</p>
+            <div class="sl-divider"></div>
+            <div class="sl-meta"><span>🕗 7:00 AM and 10:00 AM</span><span>📍 Youth Chapel</span></div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="sl-bg">
+            <div class="ac-img" style="background-image:url('istockphoto-2161124245-612x612.jpg')"></div>
+          </div>
+          <div class="sl-tag">Quarterly</div>
+          <div class="sl-body">
+            <p class="sl-date">May 15 - 16</p>
+            <h3 class="sl-title">Workers Retreat</h3>
+            <p class="sl-desc">Prayers. Worship. Word. Real conversations. Spiritual renewal. The retreat that improves work and workers.</p>
+            <div class="sl-divider"></div>
+            <div class="sl-meta"><span>📅 1 Days</span><span>🎟️ Come and be blessed</span></div>
+          </div>
+        </div>
+        <div class="sl-dots" id="slDots">
+          <div class="sl-dot on" onclick="goSlide(0)"></div>
+          <div class="sl-dot" onclick="goSlide(1)"></div>
+          <div class="sl-dot" onclick="goSlide(2)"></div>
+          <div class="sl-dot" onclick="goSlide(3)"></div>
+          <div class="sl-dot" onclick="goSlide(4)"></div>
+        </div>
+        <div class="sl-arrows">
+          <div class="sl-arr" onclick="stepSlide(-1)">&#8249;</div>
+          <div class="sl-arr" onclick="stepSlide(1)">&#8250;</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quad q3">
+      <p class="q3-label">Daily Scripture</p>
+      <p class="q3-verse" id="q3v">"For I know the plans I have for you, declares the Lord — plans to prosper you and not to harm you, plans to give you hope and a future."</p>
+      <div class="q3-line"></div>
+      <p class="q3-ref" id="q3r">— Jeremiah 29:11</p>
+      <button class="q3-btn" onclick="stepVerse(1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+        New Verse
+      </button>
+    </div>
+
+    <div class="quad q4">
+      <p class="q4-lead"><strong>Come as you are.</strong><br>Leave knowing who you are. There's a seat with your name on it every Sunday.</p>
+      <div class="q4-btns">
+        <a href="#activities" class="btn-w">
+          Explore Activities
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="q4-times">
+        <span class="chip">Sun 7 am</span>
+        <span class="chip">Sun 10 am</span>
+        <span class="chip">Tue 7 pm</span>
+        <span class="chip">Sat 12 pm</span>
+      </div>
+    </div>
+
+    <div class="cross-center">
+      <div class="cross-center-txt">PYC<small>2025</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE STRIP -->
+<div class="strip">
+  <div class="strip-cell sc-wh"><span class="sc-label">Sunday Morning</span><span class="sc-val">7:00 AM &amp; 10:00 AM</span></div>
+  <div class="strip-cell sc-nv"><span class="sc-label">Virtual Prayer Meeting</span><span class="sc-val">Tuesday 7 PM</span></div>
+  <div class="strip-cell sc-wh"><span class="sc-label">Choir Rehearsal</span><span class="sc-val">Friday 10 PM</span></div>
+  <div class="strip-cell sc-nv"><span class="sc-label">Bible Study Sunday</span><span class="sc-val">1st Sunday</span></div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="tick-track">
+    <div class="tick-item"><span class="tick-dot"></span> Prayer Sunday &mdash; <strong>March 22</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> Virtual Prayer Meeting &mdash; <strong>Every Tuesday</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> HARVEST OF PRAISE &mdash; <strong>APRIL 10</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> Choir Auditions &mdash; <strong>Open now</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> Workers Retreat &mdash; <strong>May 15-16</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> Confirmation Class &mdash; <strong>Saturdays</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> Prayer Sunday &mdash; <strong>March 22</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> Virtual Prayer Meeting &mdash; <strong>Every Tuesday</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> HARVEST OF PRAISE &mdash; <strong>APRIL 10</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> Choir Auditions &mdash; <strong>Open now</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> Workers Retreat &mdash; <strong>May 15-16</strong></div>
+    <div class="tick-item"><span class="tick-dot"></span> Confirmation Class &mdash; <strong>Saturdays</strong></div>
+  </div>
+</div>
+
+<!-- ACTIVITIES -->
+<section class="activities" id="activities">
+  <div class="sec-header rev">
+    <div>
+      <p class="sec-kicker">What We Do</p>
+      <h2 class="sec-title">Our <em>Ministries</em></h2>
+    </div>
+    <a href="#" class="see-all">View All Events →</a>
+  </div>
+  <div class="act-grid">
+
+    <div class="ac ac1 rev rev-d1">
+      <div class="ac-img" style="background-image:url('bishop-of-the-Diocese-of-Lagos-West-Odedeji-2-730x394.jpg')"></div>
+      <div class="ac-inner">
+        <div class="ac-tag">Featured · Weekly</div>
+        <div class="ac-arr">↗</div>
+        <div class="ac-body">
+          <h3 class="ac-title">Sunday Worship Experience</h3>
+          <p class="ac-desc">Liturgy, live worship, Eucharist — the fullness of Anglican tradition alive for this generation.</p>
+          <div class="ac-chips"><span class="ac-chip">Sun 7 AM &amp; 10 AM</span><span class="ac-chip">Youth Chapel</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac ac2 wh rev rev-d1">
+      <div class="ac-img" style="background-image:url('istockphoto-157773594-612x612.jpg')"></div>
+      <div class="ac-inner">
+        <div class="ac-tag">Weekly</div>
+        <div class="ac-arr">↗</div>
+        <div class="ac-body">
+          <h3 class="ac-title">Prayer Meeting</h3>
+          <p class="ac-desc">A gathering of believers connecting to pray, share scripture, and encourage one another in faith across screens</p>
+          <div class="ac-chips"><span class="ac-chip">Tue 7PM</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac ac3 rev rev-d2">
+      <div class="ac-img" style="background-image:url('360_F_1275220090_nuceL3rJS4g415XqtUd6r33eJD2WOqOo.jpg')"></div>
+      <div class="ac-inner">
+        <div class="ac-tag">Auditions Open</div>
+        <div class="ac-arr">↗</div>
+        <div class="ac-body">
+          <h3 class="ac-title">Choir-Living Praise Family</h3>
+          <p class="ac-desc">Gospel. Hymns. Vocal Gifts. Harmony. Dedication. Our choir is where art becomes adoration. All voices welcome.</p>
+          <div class="ac-chips"><span class="ac-chip">Sun 3PM</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac ac4 wh rev rev-d2">
+      <div class="ac-img" style="background-image:url('istockphoto-2161124245-612x612.jpg')"></div>
+      <div class="ac-inner">
+        <div class="ac-tag">Monthly</div>
+        <div class="ac-arr">↗</div>
+        <div class="ac-body">
+          <h3 class="ac-title">Bible Study</h3>
+          <p class="ac-desc">No surface-level conversations. We go deep — exegesis, context, and real application. Bring your questions</p>
+          <div class="ac-chips"><span class="ac-chip">1st Sunday</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac ac5 rev rev-d3">
+      <div class="ac-img" style="background-image:url('360_F_297780357_pK8VCA7wctbTFusAGiCfcoxbJLRwC9Bs.jpg')"></div>
+      <div class="ac-inner">
+        <div class="ac-tag">Ongoing</div>
+        <div class="ac-arr">↗</div>
+        <div class="ac-body">
+          <h3 class="ac-title">Confirmation Class</h3>
+          <p class="ac-desc">Rooted. Anglican. Grounded in the faith once delivered.</p>
+          <div class="ac-chips"><span class="ac-chip">Saturdays</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac ac6 wh rev rev-d4">
+      <div class="ac-img" style="background-image:url('istockphoto-157592717-612x612.jpg')"></div>
+      <div class="ac-inner">
+        <div class="ac-tag">Quarterly</div>
+        <div class="ac-arr">↗</div>
+        <div class="ac-body">
+          <h3 class="ac-title">Workers' Retreat</h3>
+          <p class="ac-desc">Prayers. Worship. Word. Real conversations. Spiritual renewal. The retreat that improves work and workers.</p>
+          <div class="ac-chips"><span class="ac-chip">Quarterly</span><span class="ac-chip">Youth Chapel</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-left rev">
+    <p class="sec-kicker">Who We Are</p>
+    <h2 class="sec-title">Anglican by <em>roots.<br>RADICAL IN expression.</em></h2>
+    <p class="about-body">As the youth arm of an Anglican church, we honor the Anglican traditions that built us, while stepping into a bold, modern pursuit of God. When we gather, our praise is loud, our prayers are fervent.</p>
+    <div class="pillars">
+      <div class="pillar"><h4>Scripture</h4><p>We obey and preach the Bible as the living, active Word of God. Every page is trustworthy, every command true, and we do not change it for comfort. Scripture is our standard, the foundation we stand on without exception.</p></div>
+      <div class="pillar"><h4>Liturgy</h4><p>We honor our ancient Anglican heritage with spoken responses, prayers, and sacramental rites. The liturgy shapes our worship rhythm, keeps our praises rooted in truth, and helps us engage God with reverence that is humble, disciplined, and alive and faithful.</p></div>
+      <div class="pillar"><h4>Community</h4><p>We build real relationships where honesty matters, accountability strengthens us, and love is practiced daily. In this community we carry one another's burdens, celebrate each other's victories, and grow together as brothers and sisters who are real, rooted, and committed.</p></div>
+      <div class="pillar"><h4>Mission</h4><p>Strength is youth's glory, so we build our spiritual house while we still have the muscle to lift the bricks. We honor God, lay deep foundations, and devote our strength to Him before age, struggle, or death make it impossible.</p></div>
+    </div>
+  </div>
+  <div class="about-right rev rev-d2">
+    <div class="about-cross">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="44" y="4" width="12" height="92" rx="2" fill="white"/>
+        <rect x="8" y="34" width="84" height="12" rx="2" fill="white"/>
+      </svg>
+    </div>
+    <div class="about-quote">
+      <blockquote>"For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do."</blockquote>
+      <div class="about-div"></div>
+      <cite>— Ephesians 2:10</cite>
+    </div>
+    <div class="about-div" style="margin-top:3rem"></div>
+    <div class="about-stats">
+      <div><p class="stat-num">200+</p><p class="stat-lbl">Young Members</p></div>
+      <div><p class="stat-num">6</p><p class="stat-lbl">Active Ministries</p></div>
+      <div><p class="stat-num">52</p><p class="stat-lbl">Sundays a Year</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY SLIDESHOW -->
+<section class="pyc-slideshow" id="word">
+  <div class="pyc-ss-window">
+    <button class="pyc-ss-arr pyc-ss-arr-left" id="pycSsPrev">&#8249;</button>
+    <div class="pyc-ss-track" id="pycSsTrack">
+      <div class="pyc-ss-slide">
+        <img src="HOP.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP1.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP2.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP3.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP4.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP5.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP6.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP7.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP8.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP9.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP10.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP11.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP12.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP13.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP14.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+      <div class="pyc-ss-slide">
+        <img src="HOP15.jpeg" alt="HOP 2026" />
+        <div class="pyc-ss-card-body"><h3 class="pyc-ss-title">HOP 2026</h3></div>
+      </div>
+    </div>
+    <button class="pyc-ss-arr pyc-ss-arr-right" id="pycSsNext">&#8250;</button>
+  </div>
+  <div class="pyc-ss-bar">
+    <div class="pyc-ss-dots" id="pycSsDots"></div>
+    <span class="pyc-ss-counter" id="pycSsCounter"><strong>01</strong> / 03</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <span class="ft-brand-name">PYC <span>Parish Youth Church</span></span>
+      <p>An Anglican youth community where ancient faith meets the present generation. Rooted. Real. Rising.</p>
+    </div>
+    <div class="ft-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#activities">Activities</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#word">The Word</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Ministries</h4>
+      <ul>
+        <li><a href="#">Living Praise Family (Choir)</a></li>
+        <li><a href="#">Living Spring Drama Ministry</a></li>
+        <li><a href="#">Evangelism Unit</a></li>
+        <li><a href="#">Prayer Unit</a></li>
+        <li><a href="#">Bible Study Unit</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4>Service Times</h4>
+      <ul>
+        <li><a href="#">Sunday 7:00 AM</a></li>
+        <li><a href="#">Sunday 10:00 AM</a></li>
+        <li><a href="#">Tuesday 7 PM</a></li>
+        <li><a href="#">First Sundays</a></li>
+        <li><a href="#">Saturday Class</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <p>© 2025 PYC — Parish Youth Church · Anglican Diocese. All rights reserved.</p>
+    <div class="ft-socials">
+      <a href="https://x.com/PYC_cca" class="ft-soc"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="https://www.tiktok.com/@pyc.cca?_r=1&amp;_t=ZS-94egBaOYyUn" class="ft-soc"><i class="fa-brands fa-tiktok"></i></a>
+      <a href="https://youtube.com/@pycagege3177?si=QdOdRBCvZ-4wA6DP" class="ft-soc"><i class="fa-brands fa-youtube"></i></a>
+      <a href="https://www.instagram.com/pyc.ccagege?igsh=dGJ0NTNhemk4ZDB3" class="ft-soc"><i class="fa-brands fa-instagram"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* NAV */
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('solid',scrollY>50)});
+
+/* MOBILE */
+function openMob(){document.getElementById('mob').classList.add('open')}
+function closeMob(){document.getElementById('mob').classList.remove('open')}
+
+/* HERO SLIDER */
+let sIdx=0,sTimer;
+const slides=document.querySelectorAll('.slide');
+const sDots=document.querySelectorAll('.sl-dot');
+function goSlide(n){
+  slides[sIdx].classList.remove('on');sDots[sIdx].classList.remove('on');
+  sIdx=(n+slides.length)%slides.length;
+  slides[sIdx].classList.add('on');sDots[sIdx].classList.add('on');
+  resetSl();
+}
+function stepSlide(d){goSlide(sIdx+d)}
+function resetSl(){clearInterval(sTimer);sTimer=setInterval(()=>stepSlide(1),5500)}
+resetSl();
+
+/* VERSES */
+const V=[
+  {t:'"For I know the plans I have for you, declares the Lord — plans to prosper you and not to harm you, plans to give you hope and a future."',r:'— Jeremiah 29:11'},
+  {t:'"I can do all this through him who gives me strength."',r:'— Philippians 4:13'},
+  {t:'"Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight."',r:'— Proverbs 3:5–6'},
+  {t:'"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."',r:'— Romans 12:2'},
+  {t:'"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."',r:'— John 3:16'},
+  {t:'"I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit."',r:'— John 15:5'},
+  {t:'"Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go."',r:'— Joshua 1:9'},
+  {t:'"But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary."',r:'— Isaiah 40:31'},
+  {t:'"Create in me a pure heart, O God, and renew a steadfast spirit within me."',r:'— Psalm 51:10'},
+  {t:'"Let your light shine before others, that they may see your good deeds and glorify your Father in heaven."',r:'— Matthew 5:16'},
+  {t:'"And we know that in all things God works for the good of those who love him."',r:'— Romans 8:28'},
+  {t:'"I came that they may have life and have it abundantly."',r:'— John 10:10'},
+];
+let vIdx=0,vTimer;
+function applyVerse(i){
+  const q3v=document.getElementById('q3v'),q3r=document.getElementById('q3r');
+  if(q3v){q3v.classList.add('fade');q3r.classList.add('fade')}
+  setTimeout(()=>{
+    if(q3v){q3v.textContent=V[i].t;q3r.textContent=V[i].r;q3v.classList.remove('fade');q3r.classList.remove('fade')}
+  },600);
+}
+function stepVerse(d){vIdx=(vIdx+d+V.length)%V.length;applyVerse(vIdx);resetVT()}
+function resetVT(){clearInterval(vTimer);vTimer=setInterval(()=>stepVerse(1),9000)}
+resetVT();
+
+/* COMMUNITY SLIDESHOW */
+(function(){
+  const track=document.getElementById('pycSsTrack');
+  const slides=Array.from(track.querySelectorAll('.pyc-ss-slide'));
+  const dotsContainer=document.getElementById('pycSsDots');
+  const counter=document.getElementById('pycSsCounter');
+  const prevBtn=document.getElementById('pycSsPrev');
+  const nextBtn=document.getElementById('pycSsNext');
+  let currentPage=0;
+  let autoTimer;
+  const DELAY=3000;
+
+  function visibleCount(){
+    if(window.innerWidth<=600)return 1;
+    if(window.innerWidth<=1100)return 2;
+    return 3;
+  }
+  function totalPages(){return Math.max(1,Math.ceil(slides.length/visibleCount()))}
+  function pad(n){return n<10?'0'+n:''+n}
+
+  function createDots(){
+    dotsContainer.innerHTML='';
+    for(let i=0;i<totalPages();i++){
+      const btn=document.createElement('button');
+      btn.className='pyc-ss-dot'+(i===currentPage?' active':'');
+      btn.dataset.idx=i;
+      btn.addEventListener('click',()=>goTo(i));
+      dotsContainer.appendChild(btn);
+    }
+  }
+  function updateCounter(){counter.innerHTML='<strong>'+pad(currentPage+1)+'</strong> / '+pad(totalPages())}
+  function updateTrack(){
+    const slideWidth=slides[0].getBoundingClientRect().width;
+    const gap=parseFloat(getComputedStyle(track).gap)||0;
+    track.style.transform='translateX(-'+(currentPage*visibleCount()*(slideWidth+gap))+'px)';
+  }
+  function updateDots(){dotsContainer.querySelectorAll('.pyc-ss-dot').forEach((dot,index)=>{dot.classList.toggle('active',index===currentPage)})}
+
+  function goTo(page){
+    const pages=totalPages();
+    currentPage=Math.min(Math.max(0,page),pages-1);
+    updateDots();updateCounter();updateTrack();resetAuto();
+  }
+  function autoAdvance(){
+    const pages=totalPages();
+    currentPage=(currentPage+1)%pages;
+    updateDots();updateCounter();updateTrack();
+  }
+  function resetAuto(){clearInterval(autoTimer);autoTimer=setInterval(autoAdvance,DELAY)}
+
+  function resizeHandler(){
+    if(currentPage>=totalPages())currentPage=totalPages()-1;
+    createDots();updateCounter();updateTrack();
+  }
+
+  prevBtn.addEventListener('click',()=>goTo(currentPage-1));
+  nextBtn.addEventListener('click',()=>goTo(currentPage+1));
+  window.addEventListener('resize',resizeHandler);
+
+  createDots();updateCounter();updateTrack();resetAuto();
+})();
+
+/* REVEAL */
+const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')})},{threshold:.1});
+document.querySelectorAll('.rev').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>
